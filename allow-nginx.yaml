@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: nginx-access
+spec:
+  podSelector:
+    matchLabels:
+      run: nginx-app
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: default
+        podSelector:
+          matchLabels:
+            run: utils
+      ports:
+        - protocol: TCP
+          port: 80
