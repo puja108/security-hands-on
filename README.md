@@ -86,8 +86,6 @@ roleRef:
 kubectl create -f prometheus.yaml
 kubectl -n kube-system get pods
 kubectl -n kube-system logs prometheus-0
-vi prometheus.yaml
-kubectl apply -f prometheus.yaml
 kubectl create -f prometheus-rbac.yaml
 kubectl -n kube-system delete pod prometheus-0
 kubectl -n kube-system get pods
@@ -140,13 +138,13 @@ Egress to pods within a cluster
 kubectl -n restricted exec bla nslookup google.de
 
 # Deny all egress in namespace
-kubectl -n restricted create default-deny-egress.yaml
+kubectl -n restricted create -f default-deny-egress.yaml
 
 kubectl -n restricted exec bla nslookup google.de
 
 # Allow DNS lookups
 kubectl label ns kube-system name=kube-system
-kubectl -n restricted create allow-dns.yaml
+kubectl -n restricted create -f allow-dns.yaml
 
 kubectl -n restricted exec bla nslookup google.de
 ```
@@ -157,7 +155,7 @@ Egress to IPs outside the cluster
 kubectl -n restricted exec bla ping 8.8.8.8
 
 # Allow
-kubectl -n restricted create allow-external.yaml
+kubectl -n restricted create -f allow-external.yaml
 
 kubectl -n restricted exec bla ping 8.8.8.8
 ```
@@ -178,7 +176,7 @@ To get them running you can apply following manigest that contain default PSPs a
 bindings for the main components.
 
 ```bash
-kubectl create minikube-psp.yaml
+kubectl create -f minikube-psp.yaml
 ```
 
 Once you have a working minikube with PSP enabled you can check out https://kubernetes.io/docs/concepts/policy/pod-security-policy/#example and https://docs.giantswarm.io/guides/securing-with-rbac-and-psp/#running-applications-that-need-privileged-access.
