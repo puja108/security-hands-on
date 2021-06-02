@@ -15,7 +15,8 @@ In case Minikube has errors starting try
 
 ```bash
 minikube delete --all --purge
-
+```
+```bash
 rm -rf ~/.minikube/
 ```
 and then the start command from above again.
@@ -26,18 +27,38 @@ and then the start command from above again.
 
 ```bash
 kubectl create namespace rbac-example
+```
+```bash
 kubectl create serviceaccount -n rbac-example myuser
+```
+```bash
 kubectl create rolebinding -n rbac-example myuser-view --clusterrole=view --serviceaccount=rbac-example:myuser
-
+```
+```bash
 alias kubectl-user='kubectl --as=system:serviceaccount:rbac-example:myuser'
-
+```
+```bash
 kubectl-user get pod -n rbac-example
+```
+```bash
 kubectl-user get pod
+```
+```bash
 kubectl get pod
+```
+```bash
 kubectl-user auth can-i get pods -n default
+```
+```bash
 kubectl create rolebinding -n default myuser-default-view --clusterrole=view --serviceaccount=rbac-example:myuser
+```
+```bash
 kubectl-user auth can-i get pods -n default
+```
+```bash
 kubectl-user get pod
+```
+```bash
 kubectl-user auth can-i get pods --all-namespaces
 ```
 
@@ -88,11 +109,23 @@ roleRef:
 
 ```bash
 kubectl create -f prometheus.yaml
+```
+```bash
 kubectl -n kube-system get pods
+```
+```bash
 kubectl -n kube-system logs prometheus-0
+```
+```bash
 kubectl create -f prometheus-rbac.yaml
+```
+```bash
 kubectl -n kube-system delete pod prometheus-0
+```
+```bash
 kubectl -n kube-system get pods
+```
+```bash
 kubectl -n kube-system logs prometheus-0
 ```
 
@@ -102,35 +135,56 @@ kubectl -n kube-system logs prometheus-0
 
 ```bash
 kubectl create ns restricted
+```
+```bash
 kubectl run -n restricted --image=nginx nginx-app --port=80
+```
+```bash
 kubectl -n restricted get pod -o wide
+```
+```bash
 kubectl run utils \
   --restart Never \
   --image webwurst/curl-utils \
   --command sleep 3000
+```
+```bash
 kubectl exec utils curl IPOFNGINX:80
-
-# Deny all (ingress) traffic to pods in that namespace
+```
+Deny all (ingress) traffic to pods in that namespace
+```bash
 kubectl create -n restricted -f default-deny.yaml
-
+```
+```bash
 kubectl exec utils curl IPOFNGINX:80
-
-# Allow traffic from busybox to nginx
+```
+Allow traffic from busybox to nginx
+```bash
 kubectl label ns default name=default
+```
+```bash
 kubectl create -n restricted -f allow-nginx.yaml
-
+```
+```bash
 kubectl exec utils curl IPOFNGINX:80
-
+```
+```bash
 kubectl -n restricted run bla \
   --restart Never \
   --image webwurst/curl-utils \
   --command sleep 3000
+```
+```bash
 kubectl -n restricted exec bla curl IPOFNGINX:80
-
-# Allow all traffic within namespace
+```
+Allow all traffic within namespace
+```bash
 label ns restricted name=restricted
+```
+```bash
 kubectl create -f allow-within-ns.yaml
-
+```
+```bash
 kubectl -n restricted exec bla curl IPOFNGINX:80
 ```
 
@@ -140,16 +194,22 @@ Egress to pods within a cluster
 
 ```bash
 kubectl -n restricted exec bla nslookup google.de
-
-# Deny all egress in namespace
+```
+Deny all egress in namespace
+```bash
 kubectl -n restricted create -f default-deny-egress.yaml
-
+```
+```bash
 kubectl -n restricted exec bla nslookup google.de
-
-# Allow DNS lookups
+```
+Allow DNS lookups
+```bash
 kubectl label ns kube-system name=kube-system
+```
+```bash
 kubectl -n restricted create -f allow-dns.yaml
-
+```
+```bash
 kubectl -n restricted exec bla nslookup google.de
 ```
 
@@ -157,10 +217,12 @@ Egress to IPs outside the cluster
 
 ```bash
 kubectl -n restricted exec bla ping 8.8.8.8
-
-# Allow
+```
+Allow
+```bash
 kubectl -n restricted create -f allow-external.yaml
-
+```
+```bash
 kubectl -n restricted exec bla ping 8.8.8.8
 ```
 
@@ -176,7 +238,7 @@ minikube start \
 This is will take a lot of time as minikube wants to verify it is working. 
 It will finally result in a failed start, but minikube should actually be running. 
 Just the Kubernetes components (besides API server) won't be up. 
-To get them running you can apply following manigest that contain default PSPs and 
+To get them running you can apply following manifest that contain default PSPs and 
 bindings for the main components.
 
 ```bash
@@ -191,5 +253,4 @@ Once you have a working minikube with PSP enabled you can check out https://kube
 - https://github.com/appscodelabs/tasty-kube/tree/master/minikube/1.10/psp
 - https://kubernetes.io/docs/concepts/policy/pod-security-policy/#example
 - https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus
-- https://docs.cilium.io/en/v1.5/gettingstarted/minikube/
 - https://kubernetes.io/docs/concepts/services-networking/network-policies/
