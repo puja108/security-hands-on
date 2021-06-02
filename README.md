@@ -6,15 +6,19 @@ Start Minikube
 
 ```bash
 minikube delete
-
-# for hyperkit (or other vm drivers)
-minikube config set vm-driver hyperkit
-
-minikube start --network-plugin=cni --memory=4096
-
-# Install Cilium (for Network Policies later)
-kubectl create -f https://raw.githubusercontent.com/cilium/cilium/v1.5/examples/kubernetes/1.14/cilium-minikube.yaml
 ```
+```bash
+minikube start --cni=cilium --memory=4096
+```
+
+In case Minikube has errors starting try
+
+```bash
+minikube delete --all --purge
+
+rm -rf ~/.minikube/
+```
+and then the start command from above again.
 
 ## RBAC
 
