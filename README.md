@@ -249,8 +249,7 @@ Once you have a working minikube with PSP enabled you can check out https://kube
 
 ## Sources, Further Reading and Resources
 
-- https://docs.giantswarm.io/guides/securing-with-rbac-and-psp/
+- https://docs.giantswarm.io/getting-started/rbac-and-psp/
 - https://github.com/appscodelabs/tasty-kube/tree/master/minikube/1.10/psp
 - https://kubernetes.io/docs/concepts/policy/pod-security-policy/#example
-- https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/prometheus
 - https://kubernetes.io/docs/concepts/services-networking/network-policies/
