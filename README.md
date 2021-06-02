@@ -252,6 +252,8 @@ kubectl -n restricted exec bla -- ping 9.9.9.9
 
 ## PSP
 
+Note, as of this writing, PSPs are deprecated and will be replaced in the near future. Thus, the next steps might be useful if you already have the needs or want to learn more about pod security contexts, but not necessary.
+
 Running minikube with PSP is not trivial, you can start it by running
 
 ```bash
