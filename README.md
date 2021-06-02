@@ -208,7 +208,7 @@ kubectl -n restricted exec bla -- curl IPOFNGINX:80
 Egress to pods within a cluster
 
 ```bash
-kubectl -n restricted exec bla nslookup google.de
+kubectl -n restricted exec bla -- nslookup google.de
 ```
 Deny all egress in namespace
 ```bash
@@ -218,7 +218,7 @@ cat default-deny-egress.yaml
 kubectl -n restricted create -f default-deny-egress.yaml
 ```
 ```bash
-kubectl -n restricted exec bla nslookup google.de
+kubectl -n restricted exec bla -- nslookup google.de
 ```
 Allow DNS lookups
 ```bash
@@ -231,13 +231,13 @@ cat allow-dns.yaml
 kubectl -n restricted create -f allow-dns.yaml
 ```
 ```bash
-kubectl -n restricted exec bla nslookup google.de
+kubectl -n restricted exec bla -- nslookup google.de
 ```
 
 Egress to IPs outside the cluster
 
 ```bash
-kubectl -n restricted exec bla ping 8.8.8.8
+kubectl -n restricted exec bla -- ping 9.9.9.9
 ```
 Allow
 ```bash
@@ -247,7 +247,7 @@ cat allow-external.yaml
 kubectl -n restricted create -f allow-external.yaml
 ```
 ```bash
-kubectl -n restricted exec bla ping 8.8.8.8
+kubectl -n restricted exec bla -- ping 9.9.9.9
 ```
 
 ## PSP
