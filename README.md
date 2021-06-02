@@ -108,6 +108,9 @@ roleRef:
 ### Workload RBAC
 
 ```bash
+cat prometheus.yaml
+```
+```bash
 kubectl create -f prometheus.yaml
 ```
 ```bash
@@ -152,24 +155,30 @@ kubectl run utils \
   --command sleep 3000
 ```
 ```bash
-kubectl exec utils curl IPOFNGINX:80
+kubectl exec utils -- curl IPOFNGINX:80
 ```
 Deny all (ingress) traffic to pods in that namespace
+```bash
+cat default-deny.yaml
+```
 ```bash
 kubectl create -n restricted -f default-deny.yaml
 ```
 ```bash
-kubectl exec utils curl IPOFNGINX:80
+kubectl exec utils -- curl IPOFNGINX:80
 ```
 Allow traffic from busybox to nginx
 ```bash
 kubectl label ns default name=default
 ```
 ```bash
+cat allow-nginx.yaml
+```
+```bash
 kubectl create -n restricted -f allow-nginx.yaml
 ```
 ```bash
-kubectl exec utils curl IPOFNGINX:80
+kubectl exec utils -- curl IPOFNGINX:80
 ```
 ```bash
 kubectl -n restricted run bla \
@@ -178,17 +187,20 @@ kubectl -n restricted run bla \
   --command sleep 3000
 ```
 ```bash
-kubectl -n restricted exec bla curl IPOFNGINX:80
+kubectl -n restricted exec bla -- curl IPOFNGINX:80
 ```
 Allow all traffic within namespace
 ```bash
-label ns restricted name=restricted
+kubectl label ns restricted name=restricted
+```
+```bash
+cat allow-within-ns.yaml
 ```
 ```bash
 kubectl create -f allow-within-ns.yaml
 ```
 ```bash
-kubectl -n restricted exec bla curl IPOFNGINX:80
+kubectl -n restricted exec bla -- curl IPOFNGINX:80
 ```
 
 ### Egress Policies
@@ -200,6 +212,9 @@ kubectl -n restricted exec bla nslookup google.de
 ```
 Deny all egress in namespace
 ```bash
+cat default-deny-egress.yaml
+```
+```bash
 kubectl -n restricted create -f default-deny-egress.yaml
 ```
 ```bash
@@ -208,6 +223,9 @@ kubectl -n restricted exec bla nslookup google.de
 Allow DNS lookups
 ```bash
 kubectl label ns kube-system name=kube-system
+```
+```bash
+cat allow-dns.yaml
 ```
 ```bash
 kubectl -n restricted create -f allow-dns.yaml
@@ -222,6 +240,9 @@ Egress to IPs outside the cluster
 kubectl -n restricted exec bla ping 8.8.8.8
 ```
 Allow
+```bash
+cat allow-external.yaml
+```
 ```bash
 kubectl -n restricted create -f allow-external.yaml
 ```
@@ -248,7 +269,7 @@ bindings for the main components.
 kubectl create -f minikube-psp.yaml
 ```
 
-Once you have a working minikube with PSP enabled you can check out https://kubernetes.io/docs/concepts/policy/pod-security-policy/#example and https://docs.giantswarm.io/guides/securing-with-rbac-and-psp/#running-applications-that-need-privileged-access.
+Once you have a working minikube with PSP enabled you should check out https://kubernetes.io/docs/concepts/policy/pod-security-policy/#example and https://docs.giantswarm.io/guides/securing-with-rbac-and-psp/#running-applications-that-need-privileged-access.
 
 ## Sources, Further Reading and Resources
 
