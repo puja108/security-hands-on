@@ -128,6 +128,9 @@ kubectl -n kube-system get pods
 ```bash
 kubectl -n kube-system logs prometheus-0
 ```
+```bash
+kubectl delete -f prometheus.yaml
+```
 
 ## Network Policies
 
