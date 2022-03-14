@@ -120,6 +120,9 @@ kubectl -n kube-system get pods
 kubectl -n kube-system logs prometheus-0
 ```
 ```bash
+cat prometheus-rbac.yaml
+```
+```bash
 kubectl create -f prometheus-rbac.yaml
 ```
 ```bash
